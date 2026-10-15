@@ -149,6 +149,7 @@ export default function DaeenPage() {
                 <th className="text-left px-4 py-3 font-medium">Name</th>
                 <th className="text-left px-4 py-3 font-medium">Handle</th>
                 <th className="text-left px-4 py-3 font-medium hidden md:table-cell">Halqa</th>
+                <th className="text-left px-4 py-3 font-medium hidden lg:table-cell">Mobile</th>
                 <th className="text-right px-4 py-3 font-medium">Followers</th>
                 <th className="text-right px-4 py-3 font-medium">Tweets</th>
                 <th className="text-center px-4 py-3 font-medium">Status</th>
@@ -166,6 +167,7 @@ export default function DaeenPage() {
                     </a>
                   </td>
                   <td className="px-4 py-2.5 text-gray-400 hidden md:table-cell">{d.halqa || "-"}</td>
+                  <td className="px-4 py-2.5 text-gray-400 hidden lg:table-cell tabular-nums">{d.mobile || "-"}</td>
                   <td className="text-right px-4 py-2.5 tabular-nums">{d.latest_stats?.followers?.toLocaleString() ?? "-"}</td>
                   <td className="text-right px-4 py-2.5 tabular-nums">{d.latest_stats?.tweets?.toLocaleString() ?? "-"}</td>
                   <td className="text-center px-4 py-2.5">
