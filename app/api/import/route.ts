@@ -5,6 +5,8 @@ import { requireUser } from "@/lib/auth";
 interface ImportDaee {
   name: string;
   twitter_handle: string;
+  email?: string;
+  mobile?: string;
   halqa?: string;
   status?: string;
   stats: Array<{
@@ -39,10 +41,17 @@ export async function POST(req: Request) {
 
     if (existing.length > 0) {
       daeeId = existing[0].id;
+      await sql`
+        UPDATE daeen SET
+          email = COALESCE(${d.email || null}, email),
+          mobile = COALESCE(${d.mobile || null}, mobile),
+          halqa = COALESCE(${d.halqa || null}, halqa),
+          updated_at = NOW()
+        WHERE id = ${daeeId}`;
     } else {
       const rows = await sql`
-        INSERT INTO daeen (name, twitter_handle, halqa, status)
-        VALUES (${d.name}, ${handle}, ${d.halqa || null}, ${d.status || "active"})
+        INSERT INTO daeen (name, twitter_handle, email, mobile, halqa, status)
+        VALUES (${d.name}, ${handle}, ${d.email || null}, ${d.mobile || null}, ${d.halqa || null}, ${d.status || "active"})
         RETURNING id`;
       daeeId = rows[0].id;
       imported++;
