@@ -13,9 +13,13 @@ export async function GET(req: Request) {
   }
 
   const rows = await sql`
-    SELECT ms.*, d.name AS daee_name, d.twitter_handle, d.status AS daee_status,
+    SELECT ms.id, ms.daee_id, to_char(ms.month, 'YYYY-MM-DD') AS month,
+      ms.followers::int AS followers, ms.following::int AS following,
+      ms.tweets::int AS tweets, ms.impressions::int AS impressions,
+      ms.notes, ms.recorded_by, ms.created_at, ms.updated_at,
+      d.name AS daee_name, d.twitter_handle, d.status AS daee_status,
       (SELECT row_to_json(prev) FROM (
-        SELECT followers, following, tweets, impressions
+        SELECT followers::int, following::int, tweets::int, impressions::int
         FROM monthly_stats
         WHERE daee_id = ms.daee_id AND month < ms.month
         ORDER BY month DESC LIMIT 1

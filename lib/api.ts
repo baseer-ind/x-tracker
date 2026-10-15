@@ -12,7 +12,9 @@ export async function apiFetch<T>(url: string, opts?: RequestInit): Promise<T> {
 }
 
 export function formatMonth(dateStr: string) {
-  const d = new Date(dateStr + "T00:00:00");
+  const cleaned = dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
+  const d = new Date(cleaned + "T00:00:00");
+  if (isNaN(d.getTime())) return dateStr;
   return d.toLocaleDateString("en-US", { year: "numeric", month: "short" });
 }
 

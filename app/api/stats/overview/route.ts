@@ -8,12 +8,12 @@ export async function GET() {
 
   const rows = await sql`
     SELECT
-      month,
+      to_char(month, 'YYYY-MM-DD') AS month,
       COUNT(DISTINCT daee_id)::int AS daeen_count,
       SUM(followers)::int AS total_followers,
       SUM(following)::int AS total_following,
       SUM(tweets)::int AS total_tweets,
-      SUM(impressions)::bigint AS total_impressions
+      SUM(impressions)::int AS total_impressions
     FROM monthly_stats
     GROUP BY month
     ORDER BY month ASC`;

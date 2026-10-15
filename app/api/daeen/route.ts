@@ -13,7 +13,7 @@ export async function GET(req: Request) {
     rows = await sql`
       SELECT d.*,
         (SELECT row_to_json(s) FROM (
-          SELECT followers, following, tweets, impressions, month
+          SELECT followers::int, following::int, tweets::int, impressions::int, to_char(month, 'YYYY-MM-DD') AS month
           FROM monthly_stats WHERE daee_id = d.id ORDER BY month DESC LIMIT 1
         ) s) AS latest_stats
       FROM daeen d WHERE d.status = ${status} ORDER BY d.name`;
@@ -21,7 +21,7 @@ export async function GET(req: Request) {
     rows = await sql`
       SELECT d.*,
         (SELECT row_to_json(s) FROM (
-          SELECT followers, following, tweets, impressions, month
+          SELECT followers::int, following::int, tweets::int, impressions::int, to_char(month, 'YYYY-MM-DD') AS month
           FROM monthly_stats WHERE daee_id = d.id ORDER BY month DESC LIMIT 1
         ) s) AS latest_stats
       FROM daeen d ORDER BY d.name`;

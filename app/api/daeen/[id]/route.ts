@@ -11,7 +11,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   if (rows.length === 0) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const stats = await sql`
-    SELECT * FROM monthly_stats WHERE daee_id = ${id} ORDER BY month DESC`;
+    SELECT id, daee_id, to_char(month, 'YYYY-MM-DD') AS month,
+      followers::int AS followers, following::int AS following,
+      tweets::int AS tweets, impressions::int AS impressions,
+      notes, recorded_by, created_at, updated_at
+    FROM monthly_stats WHERE daee_id = ${id} ORDER BY month DESC`;
 
   return NextResponse.json({ daee: rows[0], stats });
 }
