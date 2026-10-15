@@ -9,5 +9,5 @@ export async function GET() {
   const rows = await sql`
     SELECT DISTINCT month FROM monthly_stats ORDER BY month DESC`;
 
-  return NextResponse.json(rows.map((r: { month: string }) => r.month));
+  return NextResponse.json(rows.map((r) => r.month));
 }
