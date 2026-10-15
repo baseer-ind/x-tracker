@@ -18,5 +18,5 @@ export async function POST(req: Request) {
   const hash = await bcrypt.hash(password, 12);
   await sql`INSERT INTO users (email, password_hash, name, role) VALUES (${email}, ${hash}, ${name}, 'admin')`;
 
-  return NextResponse.json({ ok: true, message: "Admin user created. You can now log in." });
+  return NextResponse.json({ ok: true, email, message: "Admin user created. You can now log in." });
 }

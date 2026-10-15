@@ -39,6 +39,10 @@ function AppLayoutInner({ children }: { children: React.ReactNode }) {
     router.push("/login");
   }
 
+  const navItems = user?.role === "admin"
+    ? [...NAV, { href: "/users", label: "Users", icon: "⚙️" }]
+    : NAV;
+
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <header className="sticky top-0 z-40 bg-gray-900/80 backdrop-blur border-b border-gray-800">
@@ -59,7 +63,7 @@ function AppLayoutInner({ children }: { children: React.ReactNode }) {
           </div>
 
           <nav className="hidden md:flex items-center gap-1">
-            {NAV.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -75,7 +79,18 @@ function AppLayoutInner({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="flex items-center gap-3">
-            {user && <span className="text-xs text-gray-400 hidden sm:inline">{user.name}</span>}
+            {user && (
+              <span className="text-xs text-gray-400 hidden sm:inline">
+                {user.name}
+                <span className={`ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-medium ${
+                  user.role === "admin" ? "bg-purple-900/50 text-purple-300" :
+                  user.role === "manager" ? "bg-sky-900/50 text-sky-300" :
+                  "bg-gray-800 text-gray-400"
+                }`}>
+                  {user.role}
+                </span>
+              </span>
+            )}
             <button
               onClick={handleLogout}
               className="text-xs text-gray-400 hover:text-white px-2 py-1 rounded-lg hover:bg-gray-800 transition-colors"
@@ -87,7 +102,7 @@ function AppLayoutInner({ children }: { children: React.ReactNode }) {
 
         {menuOpen && (
           <nav className="md:hidden border-t border-gray-800 px-4 py-2 space-y-1">
-            {NAV.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
